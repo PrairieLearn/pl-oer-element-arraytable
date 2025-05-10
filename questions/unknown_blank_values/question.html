@@ -1,0 +1,66 @@
+<pl-question-panel>
+  <p>
+    These questions demonstrate how <code>unknown-value</code> works in <code>pl-array-input</code>. By setting the <code>unknown-value</code> attribute to blank or "x", we can help students indicate unknown values in their answers.
+  </p>
+</pl-question-panel>
+
+
+<div class="card my-2">
+  <div class="card-header">Correct Answer</div>
+  <div class="card-body">
+    <pl-question-panel>
+    </pl-question-panel>
+    <pl-array-input
+      answers-name="material"
+      is-material="true"
+      correct-answer = "[1,2,3,<not known!>]"
+      index="0"
+      signed = "false"
+      unknown-value = "<not known!>"
+    ></pl-array-input>
+  </div>
+</div>
+
+<div class = "row">
+  <div class = "col-6">
+<div class="card my-2">
+  <div class="card-header">Unknown Value: default</div>
+  <div class="card-body">
+    <pl-question-panel>
+      <p>
+       By default, <code>unknown-value</code> is set as blank, or <code>""</code>. 
+       Copy the table at the top of the page. Leave unknown values blank. 
+      </p>
+    </pl-question-panel>
+    <pl-array-input
+      answers-name="q1"
+      index="0"
+      correct-answer = "[1,2,3,]"
+      signed = "false"
+    ></pl-array-input>
+  </div>
+</div>
+</div>
+
+<div class = "col-6">
+<div class="card my-2">
+  <div class="card-header">Unknown Value: "x"</div>
+  <div class="card-body">
+    <pl-question-panel>
+      <p>
+        Here, <code>unknown-value</code> is set to <code>"x"</code>.
+
+        Copy the table at the top of the page. Enter x where the value is unknown.
+      </p>
+    </pl-question-panel>
+    <pl-array-input
+      answers-name="q2"
+      index="0"
+      signed = "false"
+      unknown-value="x"
+    ></pl-array-input>
+  </div>
+</div>
+</div>
+</div>
+

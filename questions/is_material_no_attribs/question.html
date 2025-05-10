@@ -1,0 +1,28 @@
+<div class="card my-2">
+  <div class="card-body">
+    <pl-question-panel>
+      <p>
+        The table below shows how <code>pl-array-input</code> can be used to display instructor-provided material by setting <code>is-material</code> to <code>true</code>.
+      </p>
+    </pl-question-panel>
+    <pl-array-input
+      answers-name="q1"
+      index="[0, 1, 2, 3, 4]"
+      correct-answer="[0, 1, 4, 9, 16]"
+      is-material="true"
+    ></pl-array-input>
+    <p>
+    <pl-question-panel> 
+      <p>In this table, no optional attributes are set, except for <code>correct-answer</code>. This means that all the attributes have their default values.
+      For example, <code>data-base</code> is <code>"dec"</code>, so the table expects decimal values. Is-material isn't set to be true, so it is automatically rendered to be false, 
+      <code>unknown-value</code> is by default set to <code>""</code>, so blank values are also allowed.</p>
+      <p>For the following indices, copy the values from the table above.</p>
+    </pl-question-panel>
+    <pl-array-input
+      answers-name="q2"
+      index="[0, 1, 2, 3, 4]"
+      correct-answer="[0, 1, 4, 9, 16]"
+    ></pl-array-input>
+    </p>
+  </div>
+</div>

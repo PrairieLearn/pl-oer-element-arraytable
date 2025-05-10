@@ -1,0 +1,136 @@
+<pl-question-panel>
+  <p>
+    The following questions use the attributes
+    <code>data-base</code>, <code>data-prefix</code>, <code>signed</code>, and <code>size</code>.
+  </p>
+  <p>
+    <code>data-base</code> is used to specify what kind of input the student is supposed to enter in the table (aside from unknown values). This information is used
+    when parsing to make sure they input the right type of data as well as in grading when comparing the submitted answer to the correct answer. Its default value is <code>"dec"</code>. Note that for all of these,
+    adding a prefix such as "0b" to the front of an answer will not change the resulting grade.
+  </p>
+</pl-question-panel>
+
+<div class="card my-2">
+  <div class="card-header">Part 1: Hexadecimal Value</div>
+  <div class="card-body">
+    <pl-question-panel>
+      <p>
+        In this first question, <code>data-base</code> is set to <code>"hex"</code>. So certain letters are allowed while others, such as "s", are not. This is a signed value.
+      </p>
+      <p>Enter the hexadecimal values for 17 and 15(signed representations).</p>
+    </pl-question-panel>
+    <pl-array-input
+      answers-name="q1"
+      index="[0, 1]"
+      correct-answer="[0x11, 0x0f]"
+      data-base="hex"
+      size="10"
+    ></pl-array-input>
+    <pl-question-panel>
+      <p>Note: The input box is fixed to a width of 10 characters using the <code>size</code> attribute.</p>
+    </pl-question-panel>
+    <p> The table below shows the correct answers.</p>
+    <pl-array-input
+      answers-name="q1_answers"
+      index="[0, 1]"
+      correct-answer="[0x11, 0x0f]"
+      data-base="hex"
+      is-material="true"
+    ></pl-array-input>
+  </div>
+</div>
+<div class="row">
+<div class="col-6">
+<div class="card my-2">
+  <div class="card-header">Part 2.1: Signed Binary Value</div>
+  <div class="card-body">
+    <pl-question-panel>
+      <p>
+        In this question, <code>data-base</code> is set to <code>"bin"</code>. Inputting a value that contains characters other than 0 and 1
+         will create a format error(other than the '0b' prefix).
+      </p>
+      <p> This question also has <code>prefill</code> set to <code>"[000,111]"</code> and <code>data-prefix</code> set to <code>"0b"</code>, 
+      which causes each prefill value to have the prefix "0b".</p>
+      <p>Enter the binary values for -1 and 1.</p>
+    </pl-question-panel>
+    <pl-array-input
+      answers-name="q2"
+      index="[0, 1]"
+      correct-answer="[11, 01]"
+      prefill = "[000,111]"
+      data-base="bin"
+      data-prefix="0b"
+    ></pl-array-input>
+    <p> The table below shows potential correct answers.</p>
+    <pl-array-input
+      answers-name="q2_answers"
+      index="[0, 1]"
+      correct-answer="[11, 01]"
+      data-base="bin"
+      is-material="true"
+    ></pl-array-input>
+  </div>
+</div>
+</div>
+
+<div class="col-6">
+<div class="card my-2">
+  <div class="card-header">Part 2.2: Unsigned Binary Value</div>
+  <div class="card-body">
+    <pl-question-panel>
+      <p>
+        Hexadecimal and binary values also have signed/unsigned support via the <code>signed</code> attribute.
+        In 2.1, <code>signed</code> was by default set to <code>true</code>, so "0b11" / "11" would represent -1.
+        However, in this question, <code>signed</code> is <code>false</code>, so so "0b11" / "11" would represent 3.
+      </p>
+      <p>Enter the binary values for 3 and 1.</p>
+    </pl-question-panel>
+    <pl-array-input
+      answers-name="q3"
+      index="[0, 1]"
+      correct-answer="[11, 01]"
+      data-base="bin"
+      signed="false"
+    ></pl-array-input>
+    <p> The table below shows potential correct answers.</p>
+    <pl-array-input
+      answers-name="q3_answers"
+      index="[0, 1]"
+      correct-answer="[11, 01]"
+      data-base="bin"
+      is-material="true"
+    ></pl-array-input>
+  </div>
+</div>
+</div>
+
+</div>
+
+<div class="card my-2">
+  <div class="card-header">Part 3: String Value</div>
+  <div class="card-body">
+    <pl-question-panel>
+      <p>
+        Here, <code>data-prefix</code> is set to <code>"string"</code>. Note that the input is <strong>case-sensitive</strong>.
+      </p>
+      <p>The prefilled values show the original state of the array. Indicate how the array looks after the following change:</p>
+      <p>A[1] = A[0][0,2]</p>
+    </pl-question-panel>
+    <pl-array-input
+      answers-name="q4"
+      index="[0, 1]"
+      correct-answer="[Hello World!, He]"
+      prefill = "[Hello World!, The wrong value]"
+      placeholder = "[Hello World!, The wrong value]"
+      data-base="string"
+    ></pl-array-input>
+    <p> The table below shows the correct answers.</p>
+    <pl-array-input
+      answers-name="q4_answers"
+      index="[0, 1]"
+      correct-answer="[Hello World!, He]"
+      data-base="string"
+      is-material="true"
+    ></pl-array-input>
+  </div>
+</div>

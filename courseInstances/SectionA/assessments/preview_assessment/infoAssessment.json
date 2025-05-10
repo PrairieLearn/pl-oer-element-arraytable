@@ -1,0 +1,43 @@
+{
+    "uuid": "1d16ff2f-07a7-4a58-a5c2-3212110e8bf6",
+    "type": "Homework",
+    "title": "Element Preview",
+    "set": "Homework",
+    "number": "1",
+    "allowAccess": [
+        {
+            "mode": "Public",
+            "credit": 100
+        }
+    ],
+    "zones": [
+        {
+        "title": "Element preview (start here)", 
+            "questions": [
+                { "id": "is_material_no_attribs",         "points": 1},
+                { "id": "prefill",         "points": 1},
+                { "id": "placeholder_prefill",         "points": 1},
+                { "id": "unknown_blank_values",         "points": 1},
+                { "id": "weight_difference",         "points": 1},
+                { "id": "allow_blank",                "points": 1},
+            ]
+        },
+        {
+	    "title": "More specific customization examples", 
+            "questions": [
+                { "id": "different_bases",         "points": 1},
+                { "id": "fixed_width_attribute",         "points": 1},
+                { "id": "signed_attribute",         "points": 1},
+                { "id": "indexing_addressing",         "points": 1},
+                { "id": "randomized_question",         "points": 1},
+                { "id": "custom_grading",         "points": 1}
+            ]
+        },
+        {
+	    "title": "How to use this element in your course", 
+            "questions": [
+                { "id": "howTo",                     "points": 0}                 
+            ]
+        }
+    ]
+}

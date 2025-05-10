@@ -1,0 +1,57 @@
+<pl-question-panel>
+  <p>
+    The question below demonstrates how <code>prefill</code> works when using
+    <code>pl-array-input</code>. <code>prefill</code> can be used when you want a table to have default values.
+    Additionally, if you have a large array and the student only needs to change a few values in it, prefill makes it convenient for the student
+    so that they do not have to input values they did not need to change. The reset button will reload the prefill values.
+  </p>
+  <p>In this question, each prefill value is different. However, if every prefill value is the same, you only need to enter one value in the <code>prefill</code> attribute.</p>
+  <p>Here, you can also see how <code>column-names</code> may be customized in html.</p>
+</pl-question-panel>
+
+<div class="card my-2">
+  <div class="card-body">
+    <pl-question-panel>
+      <p>
+        In this problem, a single MIPS instruction will modify the value of one
+        register. The "State" column is prefilled with the
+        <b>original</b> values of the registers before the instruction executes.
+      </p>
+      <p>
+        You only need to update the register(s) that change after the
+        instruction. If you delete a cell, the original value will reappear as a
+        hint. Please enter all values in <b>hexadecimal</b> with the
+        "0x" prefix and 8 digits.
+      </p>
+    </pl-question-panel>
+
+    <pl-code language="tasm"> add $2, $0, $0 # R[2] = R[0] + R[0] </pl-code>
+
+    <pl-array-input
+      answers-name="q1"
+      index="[R[0], R[1], R[2], R[3]]"
+      correct-answer="[0x00000000, 0x00000005, 0x00000000, 0x0000000A]"
+      column-names="[Register Name, State<br><small style='color: yellow'>(After Execution)</small>]"
+      prefill="[0x00000000, 0x00000005, 0x11111111, 0x0000000A]"
+      data-base="hex"
+    ></pl-array-input>
+  </div>
+</div>
+
+<pl-question-panel>
+  <p>In the previous question, each prefill value was different. However, if every prefill value is the same, you only need to enter one value in the <code>prefill</code> attribute, as demonstrated below.
+  (This is the same question as before)</p>
+</pl-question-panel>
+
+<div class="card my-2">
+  <div class="card-body">
+    <pl-array-input
+      answers-name="q2"
+      index="[R[0], R[1], R[2], R[3]]"
+      correct-answer="[0x00000000, 0x00000005, 0x00000000, 0x0000000A]"
+      column-names="[Register Name, State<br><small style='color: yellow'>(After Execution)</small>]"
+      prefill="0x00000000"
+      data-base="hex"
+    ></pl-array-input>
+  </div>
+</div>

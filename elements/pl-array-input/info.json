@@ -1,0 +1,7 @@
+{
+    "controller": "pl-array-input.py",
+    "dependencies": {
+      "elementScripts": ["pl-array-input.js"],
+      "elementStyles": ["pl-array-input.css"]
+    }
+}

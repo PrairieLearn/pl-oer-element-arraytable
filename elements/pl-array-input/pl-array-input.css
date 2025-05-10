@@ -1,0 +1,87 @@
+.a-input-block {
+  text-align: center;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: column;
+}
+
+.array-input {
+  width: auto;
+  margin-bottom: 0;
+}
+
+.array-input th,
+.array-input td {
+  min-width: 40px;
+}
+
+.array-input th {
+  background-color: #007bff;
+  border: 1px solid white;
+  color: white;
+}
+
+.array-input td {
+  border: 1px solid #d1d5db;
+  vertical-align: middle;
+  padding: 5px !important;
+}
+
+.array-input input::placeholder {
+  color: rgb(234, 110, 131);
+  opacity: 1;
+}
+
+.array-input input[type="text"] {
+  padding: 2px;
+  min-height: calc(1.5em + 2px);
+  text-align: center;
+}
+
+.array-input > tbody > tr:nth-child(odd) > td {
+  background-color: white;
+}
+
+.array-input > tbody > tr:nth-child(even) > td {
+  background-color: #f3f3f3;
+}
+
+.a-input-block .info-button {
+  padding: 0;
+  border: none;
+}
+
+.a-input-block .info-button:hover {
+  color: #007bff;
+}
+
+.array-input .result-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.array-input .input-group-text {
+  color: transparent;
+  background-color: transparent;
+  border: none;
+}
+
+.a-input-block .reset-button-container {
+  width: auto;
+  margin-top: auto;
+  padding-top: 0.5rem;
+}
+
+.a-input-block .reset-button-container button {
+  margin-bottom: 0.1rem;
+}
+
+.a-input-block .reset-confirm-container {
+  text-align: left;
+}
+
+.a-input-block .right-info-column {
+  padding-left: 2px;
+}

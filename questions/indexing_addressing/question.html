@@ -1,0 +1,76 @@
+<pl-question-panel>
+  <p>
+    These questions demonstrate how the <code>index</code> and
+    <code>address</code> features work using array inputs. You'll perform simple
+    additions at each indexed address.
+  </p>
+</pl-question-panel>
+
+<div class="card my-2">
+  <div class="card-header">Part 1 - Understanding Index</div>
+  <div class="card-body">
+    <pl-question-panel>
+      <p>
+        In this case we set <code>index</code> to be 5 and <code>index-prefix</code> to be<code>"$"</code>. Here we can see that the entire index row is filled with values starting from 5, incremented by 1 and prefixed with <code>$</code>. 
+        This shows that when we pass in a single value to the index all the other values are filled in by incrementing them by 1 and when we specify the prefix it adds that as well.
+        The array starts at index <code>$5</code>. Fill in
+        each value with the sum of its address and 1.<br>
+        For example, at <code>$5</code>, enter "6"; at
+        <code>$6</code>, enter "7", and so on.
+      </p>
+    </pl-question-panel>
+    <pl-array-input
+      answers-name="q1"
+      correct-answer="[6, 7, 8, 9, 10, 11, 12, 13, 14, 15]"
+      index="5"
+      index-prefix="$"
+      is-material="true"
+    ></pl-array-input>
+  </div>
+</div>
+
+<div class="card my-2">
+  <div class="card-header">Part 2 - Empty Index Prefix</div>
+  <div class="card-body">
+    <pl-question-panel>
+      <p>
+        We can also pass in an empty string to the index prefix to render the index without any prefix. In this case we set 
+        <code>index</code> to be "" and <code>index-prefix</code> to be<code>"$"</code>. Here we can see that the entire index row is the same as the 
+        previous question but rendered without the prefix because we specified the prefix to be an empty string.
+      </p>
+    </pl-question-panel>
+    <pl-array-input
+      answers-name="q2"
+      correct-answer="[6, 7, 8, 9, 10, 11, 12, 13, 14, 15]"
+      index="5"
+      index-prefix=""
+      is-material="true"
+    ></pl-array-input>
+  </div>
+</div>
+
+<div class="card my-2">
+  <div class="card-header">Part 3 - Address Feature</div>
+  <div class="card-body">
+    <pl-question-panel>
+      <p>
+        In this scenario, we set the index to be 101, which is 5 in decimal and we specify that the index base is binary. 
+        By specifying that the index base is binary, the prefix is automatically set to 0b and the index values are rendered with a binary prefix.
+        In this case as well, we pass in a single index value and it is incremented by 1 appropriately in the mentioned base. 
+        Fill in each value as
+        <strong>twice the decimal equivalent of the index</strong>. For example,
+        at 0101 (5), enter "10"; at
+        0110 (6), enter "12", etc.
+      </p>
+    </pl-question-panel>
+    <pl-array-input
+      answers-name="q3"
+      correct-answer="[10, 12, 14, 16, 18, 20]"
+      index="101"
+      index-base="bin"
+      index-fixed-width="4"
+    ></pl-array-input>
+  </div>
+</div>
+
+

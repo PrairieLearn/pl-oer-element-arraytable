@@ -1,0 +1,51 @@
+<pl-question-panel>
+  <p>
+    These questions demonstrate how the <code>signed</code> attribute affects
+    how values are interpreted in <code>pl-array-input</code>.
+  </p>
+</pl-question-panel>
+
+<div class="card my-2">
+  <div class="card-header">Part 1</div>
+  <div class="card-body">
+    <pl-question-panel>
+      <p>
+        The base is set to <code>hex</code> and <code>signed</code> is
+        <code>false</code>, so all values are interpreted as unsigned. Enter the
+        unsigned hex values for 17 and 15. Remember to use. Correct answer is the prefill here.
+        <code>0x</code> prefix. 
+      </p>
+    </pl-question-panel>
+    <pl-array-input
+      answers-name="q1"
+      index="[0, 1]"
+      correct-answer="[0x11, 0xF]"
+      prefill="[0x11, 0xF]"
+      data-base="hex"
+      signed="false"
+    ></pl-array-input>
+  </div>
+</div>
+
+<div class="card my-2">
+  <div class="card-header">Part 2</div>
+  <div class="card-body">
+    <pl-question-panel>
+      <p>
+        This time the base is <code>bin</code>, and <code>signed</code> is still
+        <code>false</code>, meaning all binary values are treated as positive.
+        <code>hide-help-text</code> is also set to <code>true</code> to reduce
+        distractions. Enter the binary values for 3 and 1 using two bits. Correct answer is the prefill here.
+      </p>
+    </pl-question-panel>
+    <pl-array-input
+      answers-name="q2"
+      index="[0, 1]"
+      correct-answer="[0b11, 0b01]"
+      prefill="[0b11, 0b01]"
+      data-base="bin"
+      signed="false"
+      hide-help-text="true"
+    ></pl-array-input>
+  </div>
+</div>

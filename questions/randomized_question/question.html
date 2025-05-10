@@ -1,0 +1,29 @@
+<pl-question-panel>
+  <p>
+    This question demonstrates the use of randomized parameters to generate dynamic content. 
+    The array length and operations are dynamically generated in server.py, and values like <code>data["params"]["prefill"]</code> and the equation strings (<code>data["params"]["eq1"]</code>, etc.) are set there.
+    These parameters can be accessed in the HTML using <code>&#123;&#123;params.key_name&#125;&#125;</code>, including inside attributes like <code>prefill</code> and <code>placeholder</code>.
+    The correct answer for this question is computed and assigned to <code>data["correct_answers"]["q1"]</code> in server.py, which corresponds to the <code>answers-name="q1"</code> attribute in the element.
+    Alternatively, correct answers can be set in <code>data["params"]</code>, similar to how <code>prefill</code> is currently handled.
+  </p>
+</pl-question-panel>
+
+<div class="card my-2">
+  <div class="card-body">
+    <pl-question-panel>
+      <p>
+        Say we make the following changes to the array below, A, in order. What
+        would the resulting A look like?
+      </p>
+      <p>{{params.eq1}}</p>
+      <p>{{params.eq2}}</p>
+      <p>{{params.eq3}}</p>
+    </pl-question-panel>
+    <pl-array-input
+      answers-name="q1"
+      index="[0]"
+      prefill="{{params.prefill}}"
+      placeholder="{{params.prefill}}"
+    ></pl-array-input>
+  </div>
+</div>

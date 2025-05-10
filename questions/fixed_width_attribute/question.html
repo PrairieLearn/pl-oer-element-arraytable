@@ -1,0 +1,84 @@
+<pl-question-panel>
+  <p>
+    These questions help you understand how <code>data-fixed-width</code>, 
+    <code>strict-grading</code>, and <code>partial-credit</code> affect how answers are shown and graded.
+  </p>
+  <p>
+    If you want to make sure students input the correct number of digits (especially for binary or hex values), you can set <code>data-fixed-width</code> 
+    to the number of digits the answer should be (after the prefix). If <code>strict-grading</code> is set to <code>true</code>, then they will be marked as incorrect if the number 
+    of digits does not match. If it's set to <code>false</code>, the answer will be invalid and the student won't be able to submit it.
+  </p>
+  <p>
+   In the first question, <code>data-fixed-width</code> is set to <code>3</code> and <code>strict-grading</code> is set to <code>false</code>. 
+   (<code>unknown-value</code> is set to <code>"unknown"</code> and will not be considered when checking the width.)
+  </p>
+</pl-question-panel>
+
+<div class="card my-2">
+  <div class="card-header">Part 1</div>
+  <div class="card-body">
+    <pl-question-panel>
+      <p>
+        The binary numbers must be shown using exactly 3 digits (e.g., "001"). If the value is not known, it should be entered as "unknown".
+      </p>
+    </pl-question-panel>
+    <pl-array-input
+      answers-name="q1"
+      index="[0, 1]"
+      correct-answer="[unknown, 0b001]"
+      prefill="[unknown, 0b001]"
+      data-base="bin"
+      data-fixed-width="3"
+      unknown-value="unknown"
+      signed = "false"
+    ></pl-array-input>
+  </div>
+</div>
+
+<div class="card my-2">
+  <div class="card-header">Part 2</div>
+  <div class="card-body">
+    <pl-question-panel>
+      <p>
+        Enter the binary numbers using exactly 3 digits. Because strict grading is enabled, your answer must match the exact formatting (e.g., "0b001", not "0b1").
+      </p>
+    </pl-question-panel>
+    <pl-array-input
+      answers-name="q2"
+      index="[0, 1]"
+      correct-answer="[0b111, 0b001]"
+      prefill="[0b111, 0b001]"
+      data-base="bin"
+      data-fixed-width="3"
+      strict-grading="true"
+      signed = "false"
+    ></pl-array-input>
+  </div>
+</div>
+<pl-question-panel>
+  <p>
+    This is the same question as before, but with <code>partial-credit</code> set to false. This results in all-or-nothing grading.
+  </p>
+</pl-question-panel>
+
+<div class="card my-2">
+  <div class="card-header">Part 3</div>
+  <div class="card-body">
+    <pl-question-panel>
+      <p>
+        Enter the binary numbers using exactly 3 digits. Because strict grading is enabled, your answer must match the exact formatting (e.g., "0b001", not "0b1").
+      </p>
+    </pl-question-panel>
+    <pl-array-input
+      answers-name="q3"
+      index="[0, 1]"
+      correct-answer="[0b111, 0b001]"
+      prefill="[0b111, 0b001]"
+      data-base="bin"
+      data-fixed-width="3"
+      strict-grading="true"
+      partial-credit = "false"
+      signed = "false"
+    ></pl-array-input>
+  </div>
+</div>

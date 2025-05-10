@@ -1,0 +1,46 @@
+<pl-question-panel>
+  <p>
+    This question is used to demonstrate how weights of different elements
+    impact the grade received in the question. The first question below has the
+    <code>weight</code> attribute set to <code>2</code>, while the second question has a default <code>weight</code> of
+    <code>1</code>. So, if the first question is correct, and the second is 100% wrong, the
+    student will receive 66%. If the second question is correct and the first
+    question is 100% wrong, the student will receive 33%.
+  </p>
+</pl-question-panel>
+
+<div class="card my-2">
+  <div class="card-body">
+    <pl-question-panel>
+      <p>
+        Say we make the following changes to the array below, A, in order. What
+        would the resulting A look like?
+      </p>
+      <p>A[2] = A[0] + A[1];</p>
+      <p>A[3] = A[3] + A[2];</p>
+      <p>A[1] = A[2] * A[3];</p>
+    </pl-question-panel>
+    <pl-array-input
+      answers-name="q1"
+      index="[0]"
+      correct-answer="[0, 4, 1, 4, 4, 5, 6, 7, 8, 9, 10]"
+      placeholder="[0,1,2,3,4,5,6,7,8,9,10]"
+      prefill="[0,1,2,3,4,5,6,7,8,9,10]"
+      weight="2"
+    ></pl-array-input>
+  </div>
+</div>
+
+<div class="card my-2">
+  <div class="card-body">
+    <pl-question-panel>
+      <p>Don't change the values in the table.</p>
+    </pl-question-panel>
+    <pl-array-input
+      answers-name="q2"
+      index="[0, 1]"
+      correct-answer="[, 3]"
+      prefill="[, 3]"
+    ></pl-array-input>
+  </div>
+</div>

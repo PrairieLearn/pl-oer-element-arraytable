@@ -1,0 +1,153 @@
+<pl-question-panel>
+  <p>
+    This question showcases how the <code>placeholder</code> and <code>prefill</code> attributes works in
+    <code>pl-array-input</code>.  The prefill value is the value that the student will see when they first open the question. 
+     The <code>prefill</code> value is what the student will see when they first open the question. The <code>placeholder</code> is the value that the student will see when they delete the input value.  
+     
+     Usage :
+    <p>Prefill : If you have a have a large array and the student only needs to change a few values in it, prefill makes it convenient for the student
+    so that they do not have to input values they did not need to change. The reset button will reload the prefill values.</p>
+    <p>Placeholder: If students have to repeatedly change the values of an array and they want to revert or check the original value, the placeholder comes in handy. 
+      It helps students see the original value by deleting their input.
+    </p>
+    <p>
+     This question also defines a specific <code>unknown-value</code> that the student can input for unknown memory values.
+    </p>
+</pl-question-panel>
+
+<div class="card my-2">
+  <div class="card-header">Part 1.1</div>
+  <div class="card-body">
+    <div class="row">
+      <!-- Question Input Block -->
+      <pl-question-panel>
+        <p>
+          In this question, the <code>prefill</code> value is set to "00" and the <code>placeholder</code> value is set to "0x or NA".
+        </p>
+        <p>
+          A 4-byte integer with the hexadecimal value <code>0x12345678</code> is stored in memory starting at address <code>0x2000</code>.
+          The system uses little-endian byte ordering.
+        </p>
+        <p>
+          Fill in the memory dump. Use <code>0x</code> followed by two hex digits for known values (e.g., <code>0x3F</code>).
+          If the value is unknown, enter <code>NA</code>.
+        </p>
+      </pl-question-panel>
+      <div class="col-6">
+
+        <pl-array-input
+          answers-name="q1"
+          index="[0x2000, 0x2001, 0x2002, 0x2003, 0x2004]"
+          correct-answer="[0x78, 0x56, 0x34, 0x12, NA]"
+          placeholder="0x or NA"
+          prefill="00"
+          data-base="hex"
+          unknown-value="NA"
+        ></pl-array-input>
+      </div>
+
+      <!-- Answer Block -->
+      <div class="col-6">
+        <pl-question-panel>
+          <p>This table shows the correct answers for reference.</p>
+        </pl-question-panel>
+        <pl-array-input
+          answers-name="q1_answers"
+          index="[0x2000, 0x2001, 0x2002, 0x2003, 0x2004]"
+          correct-answer="[0x78, 0x56, 0x34, 0x12, NA]"
+          data-base="hex"
+          is-material="true"
+          unknown-value="NA"
+        ></pl-array-input>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="card my-2">
+<div class="row">
+<div class="col-6">
+<div class="card my-2">
+  <div class="card-header">Part 2.1</div>
+  <div class="card-body">
+    <pl-question-panel>
+      <p>Another use case is if a student must alter the values of an array, and you want them to still have access to the original values
+        that were there(without them resetting the table). The values you set for <code>prefill</code> can be changed by the student, but the values you set for <code>placeholder</code> will remain.</p>
+        <p>Here, the placeholder values are not all the same, so every placeholder value must be entered in html.</p>        
+      <p>Add 1 to every index value in the array.</p>
+      <p>In this case the placeholder values are the correct answers, so you can delete the prefill values to see the answers</p>
+    </pl-question-panel>
+    <pl-array-input
+      answers-name="q2"
+      index="0"
+      correct-answer="[1, 2, 3, 4, 5]"
+      prefill="[0,1,2,3,4]"
+      placeholder="[1,2,3,4,5]"
+    ></pl-array-input>
+  </div>
+</div>
+</div>
+<div class="col-6">
+<div class="card my-2">
+  <div class="card-header">Part 2.2</div>
+  <div class="card-body">
+    <pl-question-panel>
+      <p>In the previous question, each prefill and placeholder values were different. However, if every prefill value is the same, you only need to enter one value in the <code>prefill</code> attribute i.e instead of writing out each prefill value you can just do <code>prefill="0"</code>. Similarly, for placeholder by doing <code>prefill="1"</code>, we can render all placeholder values to be 1.</p>
+      <p>Add 1 to every index value in the array. For e.g the answer for index 0 would be 0 + 1 = 1</p>
+      <p>In this case the answers are the same as the part 2.1 answers</p>
+    </pl-question-panel>
+    <pl-array-input
+      answers-name="q2.2"
+      index="0"
+      correct-answer="[1, 2, 3, 4, 5]"
+      placeholder="1"
+      prefill="0"
+    ></pl-array-input>
+  </div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="card my-2">
+<div class="row">
+<div class="col-6">
+<div class="card my-2">
+  <div class="card-header">Part 3: Placeholder Only</div>
+  <div class="card-body">
+    <pl-question-panel>
+      <p>This part shows how you can guide students using <code>placeholder</code> without giving them any initial values.</p>
+      <p>All values in the array below must be entered by the student. However, the placeholder provides a hint for what kind of input is expected.</p>
+      <p>Try entering the decimal squares of the indices shown.</p>
+      <p>Here the answers are the same as the placeholder values</p>
+    </pl-question-panel>
+    <pl-array-input
+      answers-name="q4"
+      index="[0, 1, 2, 3, 4]"
+      correct-answer="[0, 1, 4, 9, 16]"
+      placeholder="[0, 1, 4, 9, 16]"
+    ></pl-array-input>
+  </div>
+</div>
+</div>
+  <div class="col-6">
+<div class="card my-2">
+  <div class="card-header">Part 4: Prefill Only</div>
+  <div class="card-body">
+    <pl-question-panel>
+      <p>This part shows how <code>prefill</code> alone can be used to fill the array with initial values that students can edit.</p>
+      <p>There are no placeholders here, so if the student clears a value, they will see a blank field with no hints.</p>
+      <p>Change all values to be their index squared.</p>
+      <p>The answers are the same as for part 4</p>
+    </pl-question-panel>
+    <pl-array-input
+      answers-name="q5"
+      index="[0, 1, 2, 3, 4]"
+      correct-answer="[0, 1, 4, 9, 16]"
+      prefill="[0, 0, 0, 0, 0]"
+    ></pl-array-input>
+  </div>
+</div>
+</div>
+</div>
+</div>

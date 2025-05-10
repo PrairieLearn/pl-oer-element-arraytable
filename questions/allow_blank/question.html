@@ -1,0 +1,59 @@
+<pl-question-panel>
+  <p>
+    The following question is a demonstration of the <code>allow-blank</code> attribute.
+  </p>
+</pl-question-panel>
+
+<div class="card my-2">
+  <div class="card-header">Unknown Value: default</div>
+  <div class="card-body">
+    <pl-question-panel>
+      <p>
+        This is array A. The attribute <code>is-material</code> is set to <code>true</code>, so the correct answers appear.
+      </p>
+    </pl-question-panel>
+    <pl-array-input
+      answers-name="q1"
+      index="0"
+      correct-answer="[1, 1, 1, 1, unknown]"
+      is-material = "true"
+      unknown-value = "unknown"
+    ></pl-array-input>
+  </div>
+</div>
+
+<div class="card my-2">
+  <div class="card-header">Copy array A into the right table.</div>
+  <div class="card-body">
+      <pl-question-panel>
+        <p>
+          Although <code>unknown-value</code> is set to <code>"unknown"</code>, because <code>allow-blank</code> is <code>true</code>, 
+          if <strong>every</strong> value in the table is left blank, it will not cause a parse error.
+        </p>
+      <p>Copy array A into this table.</p>
+    </pl-question-panel>
+    <pl-array-input
+      answers-name="q2"
+      index="0"
+      correct-answer="[1, 1, 1, 1, unknown]"
+      unknown-value = "unknown"
+      allow-blank = "true"
+    ></pl-array-input>
+      <p>Don't copy array A into this table.</p>
+    <pl-array-input
+      answers-name="q3"
+      index="0"
+      correct-answer="[,,,,]"
+      size = "10"
+      unknown-value="unknown"
+      allow-blank = "true"
+    ></pl-array-input>
+
+    <br>
+    <p>
+      Both array inputs above are currently equally weighted in grading. This can be changed so that the array requiring actual input has more impact on the score. 
+      See the <em>weight_difference</em> and <em>custom_grading</em> questions for examples of how to do this.
+    </p>
+  </div>
+</div>
+
