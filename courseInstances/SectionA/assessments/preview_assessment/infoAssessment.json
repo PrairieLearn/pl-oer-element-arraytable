@@ -19,7 +19,7 @@
                 { "id": "placeholder_prefill",         "points": 1},
                 { "id": "unknown_blank_values",         "points": 1},
                 { "id": "weight_difference",         "points": 1},
-                { "id": "allow_blank",                "points": 1},
+                { "id": "allow_blank",                "points": 1}
             ]
         },
         {
