@@ -16,39 +16,61 @@ def string_to_list(value: str):
 
 def grade(data):
 
+    # FIRST GRADING METHOD: 75 - 25
+
     # get number of rows (based on output, not input)
     correct_answer = data["correct_answers"]["q1"]
     correct_answer = string_to_list(correct_answer)
 
     # want to prioritize changes to A[1], A[2], and A[3]
     priority_keys = [1, 2, 3]
-    non_priority_incorrect = False
-    priority_incorrect = False
-    score_sum = 0
+    non_priority_score = 0
+    priority_score = 0
     num_rows = len(correct_answer)
     for key in range(num_rows):
         sub = data["submitted_answers"]["q1_" + str(key)]
         if sub == correct_answer[key]:
             data["partial_scores"]["q1_" +  str(key)] = {"score" : 1, "weight" : 0, "feedback" : "Correct."}
             score_sum += 1
+            if (key in priority_keys):
+                priority_score += 1
+            else:
+                non_priority_score += 1
         else:
             data["partial_scores"]["q1_" +  str(key)] = {"score" : 0, "weight" : 0, "feedback" : "Incorrect."}
-            if key in priority_keys:
-                priority_incorrect = True
+    
+    # ~~~~~~~~~~~give more weight to the the priority answers~~~~~~~~~~~~~~
+    final_score = 0.75 * (priority_score/3) + 0.25 * (non_priority_score/8)
+
+    data["partial_scores"]["q1"] = {"score": final_score}
+
+    # SECOND GRADING METHOD: DETRACT FOR INNACURACIES OUTSIDE OF RELEVANT VALUES.
+
+
+     # get number of rows (based on output, not input)
+    correct_answer = data["correct_answers"]["q2"]
+    correct_answer = string_to_list(correct_answer)
+
+    # want to prioritize changes to A[1], A[2], and A[3]
+    priority_keys = [1, 2, 3]
+    non_priority_score = 0
+    priority_score = 0
+    num_rows = len(correct_answer)
+    for key in range(num_rows):
+        sub = data["submitted_answers"]["q1_" + str(key)]
+        if sub == correct_answer[key]:
+            data["partial_scores"]["q1_" +  str(key)] = {"score" : 1, "weight" : 0, "feedback" : "Correct."}
+            score_sum += 1
+            if (key in priority_keys):
+                priority_score += 1
             else:
-                non_priority_incorrect = True
+                non_priority_score += 1
+        else:
+            data["partial_scores"]["q1_" +  str(key)] = {"score" : 0, "weight" : 0, "feedback" : "Incorrect."}
     
-    # if priority keys are all correct, but non-priority keys are incorrect, grade normally
-    # "normal" means that each input has the same weight
-    if non_priority_incorrect:
-        data["partial_scores"]["q1"] = {"score": score_sum / num_rows}
-        return
-    
-    #else, prioritize the weights of the priority keys.
-    score_sum = 0
-    for key in priority_keys:
-        score_sum += data["partial_scores"]["q1_" + str(key)]["score"]
-    score_sum += 1 if not non_priority_incorrect else 0
-    data["partial_scores"]["q1"] = {"score": score_sum / (len(priority_keys) + 1)}
+   # ~~~~~~~~~~~subtract for non priority innacuracy~~~~~~~~~~~~~~
+    final_score = max (0, (priority_score/3) - 0.25 * (non_priority_score/8))
+
+    data["partial_scores"]["q1"] = {"score": final_score}
 
     return

@@ -1,0 +1,125 @@
+<pl-question-panel>
+  <p>
+    These questions help you understand how <code>data-fixed-width</code>, 
+    <code>strict-grading</code>, and <code>partial-credit</code> affect how answers are shown and graded.
+  </p>
+
+</pl-question-panel>
+
+<div class="card my-2">
+  <div class="card-header">Part 1</div>
+  <div class="card-body">
+    <pl-question-panel>
+      <p>
+        If you want to make sure students input the correct number of digits (especially for binary or hex values), you can set <code>data-fixed-width</code> 
+        to the number of digits the answer should be (after the prefix). If <code>strict-grading</code> is set to <code>true</code>, then they will be marked as incorrect if the number 
+        of digits does not match. If it's set to <code>false</code>, the answer will be invalid and the student won't be able to submit it.
+      </p>
+      <p>
+       In the first question, <code>data-fixed-width</code> is set to <code>3</code> and <code>strict-grading</code> is set to <code>false</code>. 
+       (<code>unknown-value</code> is set to <code>"unknown"</code> and will not be considered when checking the width.)
+      </p>
+      <p>
+        The binary numbers must be written using exactly 3 digits. If the value is not known, it should be entered as "unknown". The table on the left shows the correct answers.
+      </p>
+    </pl-question-panel>
+    <div class = "row">
+    <div class = "col-6">
+      <pl-array-input
+        answers-name="q1-mat"
+        index="[0, 1]"
+        is-material = "true"
+        correct-answer="[unknown, 0b001]"
+        unknown-value= "unknown"
+        data-base="bin"
+      ></pl-array-input>
+    </div>
+    <div class = "col-6">
+      <pl-array-input
+        answers-name="q1"
+        index="[0, 1]"
+        correct-answer="[unknown, 0b001]"
+        data-base="bin"
+        data-fixed-width="3"
+        unknown-value="unknown"
+        signed = "false"
+      ></pl-array-input>
+    </div>
+  </div>
+  </div>
+</div>
+
+<div class="card my-2">
+  <div class="card-header">Part 2</div>
+  <div class="card-body">
+    <pl-question-panel>
+      <p>
+        Enter the binary numbers using exactly 3 digits. Because strict grading is enabled, your answer must match the exact formatting (e.g., "0b001", not "0b1"). 
+        The table on the left shows the correct answers.
+      </p>
+    </pl-question-panel>
+    <div class = "row">
+      <div class= "col-6">
+        <pl-array-input
+        answers-name="q2-material"
+        is-material = "true"
+        index="[0, 1]"
+        correct-answer="[0b111, 0b001]"
+        data-base="bin"
+      ></pl-array-input>
+      </div>
+      <div class = "col-6">
+      <pl-array-input
+        answers-name="q2"
+        index="[0, 1]"
+        correct-answer="[0b111, 0b001]"
+        data-base="bin"
+        data-fixed-width="3"
+        strict-grading="true"
+        signed = "false"
+      ></pl-array-input>
+    </div>
+  </div>
+</div>
+</div>
+
+<pl-question-panel>
+  <p>
+    This is the same question as before, but with <code>partial-credit</code> set to false. This results in all-or-nothing grading.
+  </p>
+</pl-question-panel>
+
+<div class="card my-2">
+  <div class="card-header">Part 3</div>
+  <div class="card-body">
+    <pl-question-panel>
+      <p>
+        Enter the binary numbers using exactly 3 digits. Because <code>strict-grading</code> is <code>true</code>, your answer must match the exact formatting (e.g., "0b001", not "0b1").
+        The table on the left shows the correct answers.
+      </p>
+    </pl-question-panel>
+    <div class = "row">
+    <div class = "col-6">
+      <pl-array-input
+        answers-name="q3-material"
+        index="[0, 1]"
+        correct-answer="[0b111, 0b001]"
+        data-base="bin"
+        is-material = "true"
+      ></pl-array-input>
+    </div>
+    <div class = "col-6">
+    <pl-array-input
+      answers-name="q3"
+      index="[0, 1]"
+      correct-answer="[0b111, 0b001]"
+      data-base="bin"
+      data-fixed-width="3"
+      strict-grading="true"
+      partial-credit = "false"
+      signed = "false"
+    ></pl-array-input>
+  </div>
+  </div>
+  </div>
+</div>

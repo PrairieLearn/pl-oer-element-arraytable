@@ -7,18 +7,12 @@
     requirements are not met. This is handled via a custom grading function in
     server.py.
   </p>
-  <p>
-    For example, if all values at indices other than 1, 2, and 3 are correct,
-    but none of the values at indices 1, 2, and 3 correct, the student will only
-    get 25%. However, if all the values at indices 1, 2, and 3 are correct, but
-    values at all other indices are incorrect, the student will get 27% (3/11),
-    following "normal" grading.
-  </p>
 </pl-question-panel>
 
 <div class="card my-2">
   <div class="card-body">
     <pl-question-panel>
+      <p>In this question, the three relevant indices are given 75% weight.</p>
       <p>
         Say we make the following changes to the array below, A, in order. What
         would the resulting A look like?
@@ -30,6 +24,32 @@
 
     <pl-array-input
       answers-name="q1"
+      index="[0]"
+      correct-answer="[0, 10, 5, 6, 4, 5, 6, 7, 8, 9, 10]"
+      placeholder="[0,1,2,3,4,5,6,7,8,9,10]"
+      prefill="[0,1,2,3,4,5,6,7,8,9,10]"
+      weight="3"
+    ></pl-array-input>
+  </div>
+</div>
+
+<div class="card my-2">
+  <div class="card-body">
+    <pl-question-panel>
+      <p>
+        This is the same question, but with a stricted grading policy that detracts points for incorrectly changing non-relevant values.
+      </p>
+      <p>
+        Say we make the following changes to the array below, A, in order. What
+        would the resulting A look like?
+      </p>
+      <p>A[1] = 10;</p>
+      <p>A[2] = 5;</p>
+      <p>A[3] = 6;</p>
+    </pl-question-panel>
+
+    <pl-array-input
+      answers-name="q2"
       index="[0]"
       correct-answer="[0, 10, 5, 6, 4, 5, 6, 7, 8, 9, 10]"
       placeholder="[0,1,2,3,4,5,6,7,8,9,10]"

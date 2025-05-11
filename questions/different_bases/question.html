@@ -49,17 +49,13 @@
         In this question, <code>data-base</code> is set to <code>"bin"</code>. Inputting a value that contains characters other than 0 and 1
          will create a format error(other than the '0b' prefix).
       </p>
-      <p> This question also has <code>prefill</code> set to <code>"[000,111]"</code> and <code>data-prefix</code> set to <code>"0b"</code>, 
-      which causes each prefill value to have the prefix "0b".</p>
       <p>Enter the binary values for -1 and 1.</p>
     </pl-question-panel>
     <pl-array-input
       answers-name="q2"
       index="[0, 1]"
       correct-answer="[11, 01]"
-      prefill = "[000,111]"
       data-base="bin"
-      data-prefix="0b"
     ></pl-array-input>
     <p> The table below shows potential correct answers.</p>
     <pl-array-input
@@ -120,8 +116,8 @@
       answers-name="q4"
       index="[0, 1]"
       correct-answer="[Hello World!, He]"
-      prefill = "[Hello World!, The wrong value]"
-      placeholder = "[Hello World!, The wrong value]"
+      prefill = "[Hello World!, he]"
+      placeholder = "[Hello World!, he]"
       data-base="string"
     ></pl-array-input>
     <p> The table below shows the correct answers.</p>

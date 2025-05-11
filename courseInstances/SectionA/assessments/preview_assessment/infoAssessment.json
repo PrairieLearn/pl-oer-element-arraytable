@@ -14,7 +14,7 @@
         {
         "title": "Element preview (start here)", 
             "questions": [
-                { "id": "is_material_no_attribs",         "points": 1},
+                { "id": "default_behavior",         "points": 1},
                 { "id": "prefill",         "points": 1},
                 { "id": "placeholder_prefill",         "points": 1},
                 { "id": "unknown_blank_values",         "points": 1},
@@ -26,7 +26,7 @@
 	    "title": "More specific customization examples", 
             "questions": [
                 { "id": "different_bases",         "points": 1},
-                { "id": "fixed_width_attribute",         "points": 1},
+                { "id": "strict_grading_modes",         "points": 1},
                 { "id": "signed_attribute",         "points": 1},
                 { "id": "indexing_addressing",         "points": 1},
                 { "id": "randomized_question",         "points": 1},
