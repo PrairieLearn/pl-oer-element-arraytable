@@ -577,6 +577,7 @@ def validate_input(a_sub, answer_name, element, data: pl.QuestionData):
                 data["submitted_answers"][answer_name] = pl.to_json(a_sub)
                 return
         elif base == "hex":
+            a_sub_clean = a_sub_clean.replace(" ", "")
             try:
                 cast = int(a_sub_clean, 16)
             except Exception as e:
@@ -586,6 +587,7 @@ def validate_input(a_sub, answer_name, element, data: pl.QuestionData):
                 data["submitted_answers"][answer_name] = pl.to_json(a_sub)
                 return
         else:
+            a_sub_clean = a_sub_clean.replace(" ", "")
             try:
                 cast = int(a_sub_clean, 2)
             except Exception as e:
@@ -736,6 +738,7 @@ def check_answer(a_sub, a_tru, element,):
     signed = pl.get_boolean_attrib(element, "signed", SIGNED_DEFAULT)
 
     if not signed:
+        a_sub_clean = a_sub_clean.replace(" ", "")
         if base == "hex":
             return (int(a_sub, 16) == int(a_tru,16))
         else:
@@ -743,6 +746,7 @@ def check_answer(a_sub, a_tru, element,):
 
     # for signed values
     if base == "hex":
+        a_sub_clean = a_sub_clean.replace(" ", "")
         neg_values = ["8", "9", "a", "b", "c", "d", "e", "f"]
         a_sub_int = None
         # calculate integer value of submitted answer 
@@ -765,6 +769,7 @@ def check_answer(a_sub, a_tru, element,):
         return (a_sub_int == a_tru_int)
     
     if base == "bin":
+        a_sub_clean = a_sub_clean.replace(" ", "")
         a_sub_int = None
         # calculate integer value of submitted answer 
         if (a_sub[0] == '1'):
