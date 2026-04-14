@@ -2,8 +2,8 @@
     <div class="a-input-block">
         <div class="left-filler"></div>
         <div>
-            <table class="array-input table thead-light table-hover table-condensed rounded-3 overflow-hidden">
-                <thead>
+            <table class="array-input table table-hover table-sm rounded-3 overflow-hidden">
+                <thead class="table-light">
                     <tr>
                         {{#column_names}}
                             <th>{{{.}}}</th>
@@ -26,7 +26,7 @@
                                 {{! If it is question-required material, use input field}}
                                 {{#content}}
                                     <td>
-                                        <div class="result-container">
+                                        <div class="result-container input-group">
                                             <input
                                                 type="text"
                                                 name="{{cell_name}}"
@@ -36,18 +36,17 @@
                                                 style="width:{{width}}px"
                                                 {{#placeholder}}placeholder="{{placeholder}}"{{/placeholder}}
                                             ></input>
-                                            <span class="input-group-append">
-                                                {{#show_partial_score}}
+                                                                                            {{#show_partial_score}}
                                                     {{#correct}}
                                                         <span class="input-group-text">
-                                                            <span class="badge badge-success">
+                                                            <span class="badge bg-success">
                                                                 <i class="fa fa-check" aria-label="correct"></i>
-                                                            </span>
                                                         </span>
+                                                    </span>
                                                     {{/correct}}
                                                     {{#incorrect}}
                                                         <span class="input-group-text">
-                                                            <span class="badge badge-danger">
+                                                            <span class="badge bg-danger">
                                                                 <i class="fa fa-times" aria-label="incorrect"></i>
                                                             </span>
                                                         </span>
@@ -57,17 +56,16 @@
                                                     <button
                                                         type="button"
                                                         class="btn btn-light border d-flex align-items-center text-danger"
-                                                        data-toggle="popover"
-                                                        data-html="true"
+                                                        data-bs-toggle="popover"
+                                                        data-bs-html="true"
                                                         title="Format Error"
-                                                        data-placement="auto"
-                                                        data-content="{{format_error}}"
+                                                        data-bs-placement="auto"
+                                                        data-bs-content="{{format_error}}"
                                                     >
-                                                        <span class="mr-1">Invalid</span>
+                                                        <span class="me-1">Invalid</span>
                                                         <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
                                                     </button>
                                                 {{/format_error}}
-                                            </span>
                                         </div>
                                     </td>
                                 {{/content}}
@@ -99,20 +97,20 @@
         <div class="right-info-column" style="display: flex; flex-direction: column; align-items: flex-start;">
             {{^is_material}}
                 {{#all_correct}}
-                    <span class="badge badge-success badge-large">
+                    <span class="badge bg-success badge-large">
                         <i class="fa fa-check-circle" aria-hidden="true"></i> 100%
                     </span>
                 {{/all_correct}}
                 {{^all_correct}}
                     {{#all_incorrect}}
-                        <span class="badge badge-danger badge-large">
+                        <span class="badge bg-danger badge-large">
                             <i class="fa fa-times-circle" aria-hidden="true"></i> 0%
                         </span>
                     {{/all_incorrect}}
                     {{^all_incorrect}}
                         {{#score}}
-                            <span class="badge badge-warning badge-large">
-                                {{score}}%
+                            <span class="badge bg-warning text-dark badge-large">
+                                <i class="far fa-circle" aria-hidden="true"></i> {{score}}%
                             </span>
                         {{/score}}
                     {{/all_incorrect}}
@@ -121,11 +119,11 @@
                     <button
                         type="button"
                         class="btn info-button align-items-center"
-                        data-toggle="popover"
-                        data-html="true"
+                        data-bs-toggle="popover"
+                        data-bs-html="true"
                         title="Array Input"
-                        data-content="{{info}}"
-                        data-placement="auto"
+                        data-bs-content="{{info}}"
+                        data-bs-placement="auto"
                     >
                         <i class="fa fa-question-circle" aria-hidden="true"></i>
                     </button>
@@ -138,8 +136,8 @@
 {{#submission}}
     <div class="a-input-block">
         <div class="left-filler"></div>
-        <table class="array-input table thead-light table-hover rounded-3 overflow-hidden">
-            <thead>
+        <table class="array-input table table-hover table-sm rounded-3 overflow-hidden">
+            <thead class="table-light">
                 <tr>
                     {{#column_names}}
                         <th>{{{.}}}</th>
@@ -159,20 +157,19 @@
                             {{/is_material}}
                             {{^is_material}}
                                 <td>
-                                    <div class="result-container">
+                                    <div class="result-container input-group">
                                         {{sub}}
-                                        <span class="input-group-append">
-                                            {{#show_partial_score}}
+                                                                                    {{#show_partial_score}}
                                                 {{#correct}}
                                                     <span class="input-group-text">
-                                                        <span class="badge badge-success">
+                                                        <span class="badge bg-success">
                                                             <i class="fa fa-check" aria-label="correct"></i>
-                                                        </span>
                                                     </span>
+                                                </span>
                                                 {{/correct}}
                                                 {{#incorrect}}
                                                     <span class="input-group-text">
-                                                        <span class="badge badge-danger">
+                                                        <span class="badge bg-danger">
                                                             <i class="fa fa-times" aria-label="incorrect"></i>
                                                         </span>
                                                     </span>
@@ -181,17 +178,16 @@
                                             {{#format_error}}
                                                 <button
                                                     class="badge text-danger badge-invalid btn btn-sm btn-secondary small border"
-                                                    data-placement="auto"
-                                                    data-toggle="popover"
-                                                    data-html="true"
+                                                    data-bs-placement="auto"
+                                                    data-bs-toggle="popover"
+                                                    data-bs-html="true"
                                                     title="Format Error"
-                                                    data-content="{{format_error}}"
+                                                    data-bs-content="{{format_error}}"
                                                 >
                                                     Invalid
                                                     <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
                                                 </button>
                                             {{/format_error}}
-                                        </span>
                                     </div>
                                 </td>
                             {{/is_material}}
@@ -203,20 +199,20 @@
         {{^is_material}}
             <div class="right-info-column">
                 {{#all_correct}}
-                    <span class="badge badge-success badge-large">
+                    <span class="badge bg-success badge-large">
                         <i class="fa fa-check-circle" aria-hidden="true"></i> 100%
                     </span>
                 {{/all_correct}}
                 {{^all_correct}}
                     {{#all_incorrect}}
-                        <span class="badge badge-danger badge-large">
+                        <span class="badge bg-danger badge-large">
                             <i class="fa fa-times-circle" aria-hidden="true"></i> 0%
                         </span>
                     {{/all_incorrect}}
                     {{^all_incorrect}}
                         {{#score}}
-                            <span class="badge badge-warning badge-large">
-                                <i class="fa fa-circle-o" aria-hidden="true"></i> {{score}}%
+                            <span class="badge bg-warning text-dark badge-large">
+                                <i class="far fa-circle" aria-hidden="true"></i> {{score}}%
                             </span>
                         {{/score}}
                     {{/all_incorrect}}
@@ -229,8 +225,8 @@
 {{#answer}}
     {{^is_material}}
         <div class="a-input-block">
-            <table class="array-input table thead-light table-hover rounded-3 overflow-hidden">
-                <thead>
+            <table class="array-input table table-hover table-sm rounded-3 overflow-hidden">
+                <thead class="table-light">
                     <tr>
                         {{#column_names}}
                             <th>{{{.}}}</th>

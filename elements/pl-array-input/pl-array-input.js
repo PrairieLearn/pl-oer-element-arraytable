@@ -1,154 +1,139 @@
 /* eslint-env browser */
-window.PLArrayInput = function (uuid, options) {
-  // make the id of the element use query selector to choose the table reset button we are looking for
-  this.element = document
-    .querySelector('[data-table-uuid="' + uuid + '"]')
-    .closest(".a-input-block");
-  // If not found, print error to console
-  if (!this.element) {
-    console.log("array couldn't be retreived", uuid);
-  }
-  // store prefill values immediately when page loads
-  this.originalPrefills = {};
-  this.element.querySelectorAll("input.form-control").forEach((input) => {
-    this.originalPrefills[input.getAttribute("name")] = input.dataset.prefill;
-  });
+window.PLArrayInput = function (uuid) {
+  const root = document
+    .querySelector(`[data-table-uuid="${uuid}"]`)
+    ?.closest(".a-input-block");
 
-  // Initialize reset button functionality
-  this.resetButton = this.element.querySelector(".reset-button");
-  if (!this.resetButton) {
-    console.error("Reset button not found for UUID:", uuid);
+  if (!root) {
+    console.error("Array input root not found for UUID:", uuid);
     return;
   }
-  //derived some of this code from script-editor (restoreoriginalbutton code)
+
+  this.element = root;
+  this.originalPrefills = {};
+  this.element.querySelectorAll("input.form-control").forEach((input) => {
+    this.originalPrefills[input.name] = input.dataset.prefill ?? "";
+  });
+
+  this.table = this.element.querySelector("table.array-input");
+  this.resetContainer = this.element.querySelector(".reset-button-container");
+  this.resetButton = this.element.querySelector(".reset-button");
   this.resetConfirmContainer = this.element.querySelector(
     ".reset-confirm-container"
   );
   this.resetConfirm = this.element.querySelector(".reset-confirm");
   this.resetCancel = this.element.querySelector(".reset-cancel");
 
-  if (this.resetConfirmContainer && this.resetConfirm && this.resetCancel) {
-    this.initResetButton();
-  } else {
-    console.error("Reset confirmation elements not found for UUID:", uuid);
+  const resetContainerWidth = () => {
+    if (!this.table || !this.resetContainer) {
+      return;
+    }
+    const tableWidth = this.table.getBoundingClientRect().width;
+    this.resetContainer.style.width = `${tableWidth}px`;
+  };
+
+  const balanceLayout = () => {
+    const rightColumns = Array.from(
+      this.element.getElementsByClassName("right-info-column")
+    );
+    const leftFillers = Array.from(
+      this.element.getElementsByClassName("left-filler")
+    );
+
+    if (rightColumns.length !== leftFillers.length) {
+      return;
+    }
+
+    rightColumns.forEach((rightColumn, index) => {
+      const width = rightColumn.getBoundingClientRect().width;
+      leftFillers[index].style.width = `${width}px`;
+    });
+  };
+
+  const resetToPrefillValues = () => {
+    this.element.querySelectorAll("input.form-control").forEach((input) => {
+      const originalValue = this.originalPrefills[input.name];
+      input.value = originalValue ?? "";
+    });
+
+    this.element.querySelectorAll('.badge.bg-success, .badge.bg-danger').forEach(
+      (badge) => badge.remove()
+    );
+
+    this.element.querySelectorAll('.input-group-text').forEach((text) =>
+      text.remove()
+    );
+
+    this.element.querySelectorAll('[data-bs-toggle="popover"]').forEach(
+      (popover) => {
+        popover.removeAttribute('data-bs-content');
+        popover.removeAttribute('data-bs-original-title');
+        popover.removeAttribute("data-content");
+        popover.removeAttribute("data-original-title");
+      }
+    );
+  };
+
+  const initResetButton = () => {
+    if (!this.resetButton || !this.resetConfirmContainer || !this.resetConfirm || !this.resetCancel) {
+      console.error("Reset confirmation elements are missing for UUID:", uuid);
+      return;
+    }
+
+    this.resetButton.addEventListener("click", () => {
+      this.resetButton.style.display = "none";
+      this.resetConfirmContainer.style.display = "flex";
+      const cancelWidth = this.resetConfirm.offsetWidth;
+      this.resetCancel.style.width = `${cancelWidth}px`;
+      this.resetConfirm.focus();
+    });
+
+    this.resetConfirm.addEventListener("click", () => {
+      this.resetConfirmContainer.style.display = "none";
+      this.resetButton.style.display = "inline-flex";
+      this.resetButton.focus();
+      resetToPrefillValues();
+    });
+
+    this.resetCancel.addEventListener("click", () => {
+      this.resetConfirmContainer.style.display = "none";
+      this.resetButton.style.display = "inline-flex";
+      this.resetButton.focus();
+    });
+  };
+
+  if (this.resetButton) {
+    initResetButton();
   }
 
   resetContainerWidth();
-  this.table = this.element.querySelector('table.array-input');
-  this.resetContainer = this.element.querySelector('.reset-button-container');
-  this.resetResizeObs = new ResizeObserver(() => {
-    resetContainerWidth();
-  });
-  this.resetResizeObs.observe(this.table);
+  if (this.table instanceof Element) {
+    this.resetResizeObs = new ResizeObserver(resetContainerWidth);
+    this.resetResizeObs.observe(this.table);
+  }
 
   balanceLayout();
-  // adjust left filler width every time right column's width changes
-  this.rightColumn = document.getElementsByClassName('right-info-column');  
-  this.resizeObserver = new ResizeObserver(() => {
-    balanceLayout();
-  });  
-  for (let i = 0; i < this.rightColumn.length; i++) {
-    this.resizeObserver.observe(this.rightColumn[i]);
+  const rightColumns = Array.from(
+    this.element.getElementsByClassName("right-info-column")
+  );
+  if (rightColumns.length > 0) {
+    this.resizeObserver = new ResizeObserver(balanceLayout);
+    rightColumns.forEach((column) => this.resizeObserver.observe(column));
   }
-};
-
-function resetContainerWidth() {
-  // limit buttons to table width
-  this.table = this.element.querySelector('table.array-input');
-  this.resetContainer = this.element.querySelector('.reset-button-container');
-  
-  if (this.table && this.resetContainer) {
-    this.tableWidth = this.table.getBoundingClientRect().width; 
-    this.resetContainer.style.width = `${this.tableWidth}px`;
-  }
-}
-
-// resize left filler column, mirroring the right div with score and help text, to center the table
-function balanceLayout() {
-  this.rightColumn = document.getElementsByClassName('right-info-column');
-  this.leftFiller = document.getElementsByClassName('left-filler');
-  // sanity test
-  if (this.rightColumn.length == this.leftFiller.length) {
-    for (let i = 0; i < this.rightColumn.length; i++) {
-      this.currWidth = this.rightColumn[i].getBoundingClientRect().width;
-      this.leftFiller[i].style.width = `${this.currWidth}px`;
-    }
-  }
-};
-
-//copy pasted this entire part from script editor for confirmation
-window.PLArrayInput.prototype.initResetButton = function () {
-  this.resetButton.addEventListener("click", () => {
-    this.resetButton.style.display = "none";
-    this.resetConfirmContainer.style.display = "block";
-    this.cancelWidth = this.resetConfirm.offsetWidth;
-    this.resetCancel.style.width = `${this.cancelWidth}px`;
-    this.resetConfirm.focus();
-  });
-
-  this.resetConfirm.addEventListener("click", () => {
-    this.resetConfirmContainer.style.display = "none";
-    this.resetButton.style.display = "block";
-    this.resetButton.focus();
-    this.resetToPrefillValues();
-  });
-
-  this.resetCancel.addEventListener("click", () => {
-    this.resetConfirmContainer.style.display = "none";
-    this.resetButton.style.display = "block";
-    this.resetButton.focus();
-  });
-};
-
-window.PLArrayInput.prototype.resetToPrefillValues = function () {
-  // reset input values
-  this.element.querySelectorAll("input.form-control").forEach((input) => {
-    const originalValue = this.originalPrefills[input.getAttribute("name")];
-    input.value = originalValue || "";
-  });
-
-  this.element
-    .querySelectorAll(".badge-success, .badge-danger")
-    .forEach((badge) => {
-      badge.parentNode.removeChild(badge);
-    });
-
-  this.element.querySelectorAll(".input-group-text").forEach((text) => {
-    text.parentNode.removeChild(text);
-  });
-
-  this.element
-    .querySelectorAll('[data-toggle="popover"]')
-    .forEach((popover) => {
-      popover.removeAttribute("data-content");
-      popover.removeAttribute("data-original-title");
-    });
 };
 
 // Initialize all array inputs on page load
 document.addEventListener("DOMContentLoaded", function () {
-  // Debug info - log all available UUIDs
-  console.log(
-    "Available reset buttons:",
-    Array.from(document.querySelectorAll(".reset-button[data-table-uuid]")).map(
-      (el) => el.getAttribute("data-table-uuid")
-    )
-  );
-
-  // Try different selector strategies
   const resetButtons = document.querySelectorAll(
     ".reset-button[data-table-uuid]"
   );
 
-  if (resetButtons.length === 0) {
-    console.error("No reset buttons found on the page");
-  }
-
   resetButtons.forEach((button) => {
     try {
       const uuid = button.getAttribute("data-table-uuid");
-      console.log("Initializing PLArrayInput for UUID:", uuid);
-      new window.PLArrayInput(uuid);
+      if (uuid) {
+        new window.PLArrayInput(uuid);
+      }
     } catch (e) {
       console.error("Error initializing array input:", e);
     }

@@ -145,7 +145,7 @@ def prepare(element_html: str, data: pl.QuestionData) -> None:
     
     if data_base not in ["dec", "hex", "bin", "string"]:
         raise ValueError(
-            f"data-base attribute must have the value of \"string\", \"dec\", \"hex\", or \"bin\""
+            "data-base attribute must have the value of \"string\", \"dec\", \"hex\", or \"bin\""
         )
     
     check_correct_answer_type(element, correct_answer_list, data_base, unknown_value, allow_blank, name)
@@ -189,8 +189,8 @@ def check_correct_answer_type(element, correct_answer_list, base, unknown_value,
             if i in valid_unknowns:
                 continue
             try:
-                cast = int(i)
-            except Exception as e: 
+                int(i)
+            except Exception: 
                 raise ValueError(
                         f"data-base is set to \"dec\" in question {name}, however one or more of the correct-answer values is an invalid decimal number. If you'd like to choose a different base, set data-base to \"hex\", \"bin\", or \"string\"."
                     ) from None
@@ -202,8 +202,8 @@ def check_correct_answer_type(element, correct_answer_list, base, unknown_value,
             if i in valid_unknowns:
                 continue
             try:
-                cast = int(i, 16)
-            except Exception as e: 
+                int(i, 16)
+            except Exception: 
                 raise ValueError(
                         f"data-base is set to \"hex\" in question {name}, however one or more of the correct-answer values is an invalid hexadecimal number."
                     ) from None
@@ -215,8 +215,8 @@ def check_correct_answer_type(element, correct_answer_list, base, unknown_value,
             if i in valid_unknowns:
                 continue
             try:
-                cast = int(i, 2)
-            except Exception as e: 
+                int(i, 2)
+            except Exception: 
                 raise ValueError(
                         f"data-base is set to \"bin\" in question {name}, however one or more of the correct-answer values is an invalid binary number."
                     ) from None
@@ -334,7 +334,7 @@ def render(element_html: str, data: pl.QuestionData) -> str:
     size = pl.get_integer_attrib(element, "size", SIZE_DEFAULT)
     if size < 0:
         raise ValueError(
-            f"The size attribute must be 0 or greater."
+            "The size attribute must be 0 or greater."
         )
     width = size or math.ceil(width) 
 
@@ -506,7 +506,7 @@ def parse(element_html: str, data: pl.QuestionData) -> None:
         blank_count = 0
         for row_index in range(num_rows):
             answer_name = f"{name}_{row_index}"
-            a_sub = submitted_answers_list[row_index] if submitted_answers_list != None else data["submitted_answers"].get(answer_name, None)
+            a_sub = submitted_answers_list[row_index] if submitted_answers_list is not None else data["submitted_answers"].get(answer_name, None)
             if not a_sub or a_sub is None:
                 blank_count += 1
                 data["submitted_answers"][answer_name] = a_sub
@@ -516,7 +516,7 @@ def parse(element_html: str, data: pl.QuestionData) -> None:
 
     for row_index in range(num_rows):
         answer_name = f"{name}_{row_index}"
-        a_sub = submitted_answers_list[row_index] if submitted_answers_list != None else data["submitted_answers"].get(answer_name, None)
+        a_sub = submitted_answers_list[row_index] if submitted_answers_list is not None else data["submitted_answers"].get(answer_name, None)
         validate_input(a_sub, answer_name, element, data)
 
     return
@@ -569,8 +569,8 @@ def validate_input(a_sub, answer_name, element, data: pl.QuestionData):
 
         if base == "dec":
             try:
-                cast = int(a_sub_clean)
-            except Exception as e:
+                int(a_sub_clean)
+            except Exception:
                 data["format_errors"][
                     answer_name
                 ] = f"Invalid format. The submitted answer must be a valid decimal or {uv}."
@@ -579,8 +579,8 @@ def validate_input(a_sub, answer_name, element, data: pl.QuestionData):
         elif base == "hex":
             a_sub_clean = a_sub_clean.replace(" ", "")
             try:
-                cast = int(a_sub_clean, 16)
-            except Exception as e:
+                int(a_sub_clean, 16)
+            except Exception:
                 data["format_errors"][
                     answer_name
                 ] = f"Invalid format. The submitted answer must be a valid hexadecimal number or {uv}."
@@ -589,8 +589,8 @@ def validate_input(a_sub, answer_name, element, data: pl.QuestionData):
         else:
             a_sub_clean = a_sub_clean.replace(" ", "")
             try:
-                cast = int(a_sub_clean, 2)
-            except Exception as e:
+                int(a_sub_clean, 2)
+            except Exception:
                 data["format_errors"][
                     answer_name
                 ] = f"Invalid format. The submitted answer must be a valid binary number or {uv}."
