@@ -1,7 +1,6 @@
 import random
 import math
 import re
-from typing import Any
 from io import StringIO
 import csv
 import chevron
@@ -30,9 +29,9 @@ HIDE_HELP_TEXT = False
 ARRAY_INPUT_MUSTACHE_TEMPLATE_NAME = "pl-array-input.mustache"
 
 
-def string_to_list(raw_string: str | None) -> list[str]:
+def string_to_list(raw_string: str | None) -> list[str] | None:
     """Convert a comma-separated list of column names into an array"""
-    if not raw_string:
+    if raw_string is None:
         return raw_string
 
     raw_string = "".join(raw_string.splitlines()).strip()
@@ -48,6 +47,7 @@ def string_to_list(raw_string: str | None) -> list[str]:
         strict=True,
     )
     return [item.strip() for item in next(reader)]
+
 
 def prepare(element_html: str, data: pl.QuestionData) -> None:
     element = lxml.html.fragment_fromstring(element_html)
@@ -108,6 +108,9 @@ def prepare(element_html: str, data: pl.QuestionData) -> None:
 
     column_names = pl.get_string_attrib(element, "column-names", COLUMN_NAMES_DEFAULT)
     column_names = string_to_list(column_names)
+
+    assert index_values is not None
+    assert column_names is not None
 
     data_base = pl.get_string_attrib(element, "data-base", DATA_BASE_DEFAULT)
     data_base = data_base.lower()
@@ -172,6 +175,7 @@ def prepare(element_html: str, data: pl.QuestionData) -> None:
                         f"Width of one or more correct-answer values after its prefix does not match fixed width of {data_fixed_width} in \"{name}\". This does not include unknown-answer values."
                     ) 
 
+
 def check_correct_answer_type(element, correct_answer_list, base, unknown_value, allow_blank, name):
     valid_unknowns = [unknown_value]
     if allow_blank:
@@ -223,7 +227,6 @@ def check_correct_answer_type(element, correct_answer_list, base, unknown_value,
         return
 
 
-
 def render(element_html: str, data: pl.QuestionData) -> str:
     element = lxml.html.fragment_fromstring(element_html)
     name = pl.get_string_attrib(element, "answers-name")
@@ -249,6 +252,8 @@ def render(element_html: str, data: pl.QuestionData) -> str:
     prefix_default = prefix_options[index_base]
     index_prefix = pl.get_string_attrib(element, "index-prefix", prefix_default)
     index_fixed_width = pl.get_integer_attrib(element, "index-fixed-width", INDEX_FIXED_WIDTH_DEFAULT)
+
+    assert index_values is not None
 
     if len(index_values) != num_rows:
         initial_value = index_values[0]
@@ -297,16 +302,15 @@ def render(element_html: str, data: pl.QuestionData) -> str:
 
 
     prefill = pl.get_string_attrib(element, "prefill", PREFILL_DEFAULT)
-    if prefill:
-        prefill = string_to_list(prefill)
-        if len(prefill) == 1:
-            prefill = prefill * num_rows
+    
+    prefill = string_to_list(prefill)
+    if prefill is not None and len(prefill) == 1:
+        prefill = prefill * num_rows
 
     placeholder = pl.get_string_attrib(element, "placeholder", PLACEHOLDER_DEFAULT)
-    if placeholder is not None:
-        placeholder = string_to_list(placeholder)
-        if len(placeholder) == 1:
-            placeholder = placeholder * num_rows
+    placeholder = string_to_list(placeholder)
+    if placeholder is not None and len(placeholder) == 1:
+        placeholder = placeholder * num_rows
     
     prefix_options = {"dec": "", "bin": "0b", "hex": "0x", "string": ""}
     data_base = pl.get_string_attrib(element, "data-base", DATA_BASE_DEFAULT).lower()
@@ -471,7 +475,7 @@ def render(element_html: str, data: pl.QuestionData) -> str:
             html_params[score_type] = score_value
         return chevron.render(template, html_params).strip()
     
-    elif data["panel"] == "answer":
+    else:  #answer panel
         html_params = {
             "answer": True,
             "name": name,
@@ -479,6 +483,7 @@ def render(element_html: str, data: pl.QuestionData) -> str:
             "rows": rows,
         }
         return chevron.render(template, html_params).strip()
+
 
 def parse(element_html: str, data: pl.QuestionData) -> None:
     element = lxml.html.fragment_fromstring(element_html)
@@ -521,95 +526,102 @@ def parse(element_html: str, data: pl.QuestionData) -> None:
 
     return
 
-def validate_input(a_sub, answer_name, element, data: pl.QuestionData):
-        
-        # check if a_sub does not exist
-        if a_sub is None:
-            data["format_errors"][answer_name] = "No submitted answer."
-            data["submitted_answers"][answer_name] = None
-            return   
-    
-        unknown_value = pl.get_string_attrib(element, "unknown-value", UNKNOWN_VALUE_DEFAULT)
-        unknown_value = unknown_value.lower()
 
-        if not a_sub and unknown_value != "":
+def validate_input(a_sub, answer_name, element, data: pl.QuestionData):
+    # check if a_sub does not exist
+    if a_sub is None:
+        data["format_errors"][answer_name] = "No submitted answer."
+        data["submitted_answers"][answer_name] = None
+        return   
+
+    unknown_value = pl.get_string_attrib(element, "unknown-value", UNKNOWN_VALUE_DEFAULT)
+    unknown_value = unknown_value.lower()
+
+    a_sub = a_sub.lstrip().rstrip()
+    a_sub = a_sub.lower() 
+
+    if a_sub == "" and unknown_value != "":
+        data["format_errors"][
+            answer_name
+        ] = "Invalid format. The submitted answer was left blank."
+        data["submitted_answers"][answer_name] = None  
+        return
+
+    base = pl.get_string_attrib(element, "data-base", DATA_BASE_DEFAULT)
+    base = base.lower()
+
+    prefix_options = {"dec": "", "bin": "0b", "hex": "0x", "string": ""}
+    if base not in prefix_options:
+        raise ValueError(f"Invalid base '{base}'. Must be one of {list(prefix_options.keys())}.")
+    data_prefix_default = prefix_options[base]
+    prefix = pl.get_string_attrib(element, "data-prefix", data_prefix_default)
+
+    a_sub_clean = a_sub.replace(prefix, "", 1)
+
+    if a_sub != "" and a_sub_clean == "":
+        data["format_errors"][
+            answer_name
+        ] = "Invalid format. The submitted answer is only a prefix."
+        data["submitted_answers"][answer_name] = None  
+        return
+
+    # string base should allow all
+    if base == "string":
+        data["submitted_answers"][answer_name] = pl.to_json(a_sub)
+        return
+    
+    # check if a_sub is equal to unknown-value or blank.
+    if (a_sub_clean == unknown_value):
+        data["submitted_answers"][answer_name] = pl.to_json(a_sub)
+        return
+
+    # alternative blank value instead of ""
+    uv = "\'" + unknown_value + "\'" if (unknown_value != "") else "blank"
+
+    if base == "dec":
+        try:
+            int(a_sub_clean)
+        except Exception:
             data["format_errors"][
                 answer_name
-            ] = "Invalid format. The submitted answer was left blank."
-            data["submitted_answers"][answer_name] = None  
+            ] = f"Invalid format. The submitted answer must be a valid decimal or {uv}."
+            data["submitted_answers"][answer_name] = pl.to_json(a_sub)
             return
+    elif base == "hex":
+        a_sub_clean = a_sub_clean.replace(" ", "")
+        try:
+            int(a_sub_clean, 16)
+        except Exception:
+            data["format_errors"][
+                answer_name
+            ] = f"Invalid format. The submitted answer must be a valid hexadecimal number or {uv}."
+            data["submitted_answers"][answer_name] = pl.to_json(a_sub)
+            return
+    else:
+        a_sub_clean = a_sub_clean.replace(" ", "")
+        try:
+            int(a_sub_clean, 2)
+        except Exception:
+            data["format_errors"][
+                answer_name
+            ] = f"Invalid format. The submitted answer must be a valid binary number or {uv}."
+            data["submitted_answers"][answer_name] = pl.to_json(a_sub)
+            return
+    
+    strict = pl.get_boolean_attrib(element, "strict-grading", STRICT_GRADING_DEFAULT)
+    data_fixed_width = pl.get_integer_attrib(element, "data-fixed-width", DATA_FIXED_WIDTH_DEFAULT)
 
-        # clean a_sub
-        a_sub_clean = a_sub.lstrip().rstrip()
-        a_sub_clean = a_sub_clean.lower() 
-
-        base = pl.get_string_attrib(element, "data-base", DATA_BASE_DEFAULT)
-        base = base.lower()
-
-        prefix_options = {"dec": "", "bin": "0b", "hex": "0x", "string": ""}
-        if base not in prefix_options:
-            raise ValueError(f"Invalid base '{base}'. Must be one of {list(prefix_options.keys())}.")
-        data_prefix_default = prefix_options[base]
-        prefix = pl.get_string_attrib(element, "data-prefix", data_prefix_default)
-
-        a_sub_clean = a_sub_clean.replace(prefix, "", 1)
-
-        # string base should allow all
-        if base == "string":
+    # if data-fixed-width > 0 and strict is false, check width
+    if (data_fixed_width > 0) and not strict:
+        if (len(a_sub_clean) != data_fixed_width):
+            data["format_errors"][
+                answer_name
+            ] = "Invalid format. The submitted answer is not the right length."
             data["submitted_answers"][answer_name] = pl.to_json(a_sub)
             return
         
-        # check if a_sub is equal to unknown-value or blank.
-        if (a_sub_clean == unknown_value):
-            data["submitted_answers"][answer_name] = pl.to_json(a_sub)
-            return
+    data["submitted_answers"][answer_name] = pl.to_json(a_sub)
 
-        # alternative blank value instead of ""
-        uv = "\'" + unknown_value + "\'" if (unknown_value != "") else "blank"
-
-        if base == "dec":
-            try:
-                int(a_sub_clean)
-            except Exception:
-                data["format_errors"][
-                    answer_name
-                ] = f"Invalid format. The submitted answer must be a valid decimal or {uv}."
-                data["submitted_answers"][answer_name] = pl.to_json(a_sub)
-                return
-        elif base == "hex":
-            a_sub_clean = a_sub_clean.replace(" ", "")
-            try:
-                int(a_sub_clean, 16)
-            except Exception:
-                data["format_errors"][
-                    answer_name
-                ] = f"Invalid format. The submitted answer must be a valid hexadecimal number or {uv}."
-                data["submitted_answers"][answer_name] = pl.to_json(a_sub)
-                return
-        else:
-            a_sub_clean = a_sub_clean.replace(" ", "")
-            try:
-                int(a_sub_clean, 2)
-            except Exception:
-                data["format_errors"][
-                    answer_name
-                ] = f"Invalid format. The submitted answer must be a valid binary number or {uv}."
-                data["submitted_answers"][answer_name] = pl.to_json(a_sub)
-                return
-        
-        strict = pl.get_boolean_attrib(element, "strict-grading", STRICT_GRADING_DEFAULT)
-        data_fixed_width = pl.get_integer_attrib(element, "data-fixed-width", DATA_FIXED_WIDTH_DEFAULT)
-
-        # if data-fixed-width > 0 and strict is false, check width
-        if (data_fixed_width > 0) and not strict:
-            if (len(a_sub_clean) != data_fixed_width):
-                data["format_errors"][
-                    answer_name
-                ] = "Invalid format. The submitted answer is not the right length."
-                data["submitted_answers"][answer_name] = pl.to_json(a_sub)
-                return
-            
-        data["submitted_answers"][answer_name] = pl.to_json(a_sub)
 
 def grade(element_html: str, data: pl.QuestionData) -> None:
     element = lxml.html.fragment_fromstring(element_html)
@@ -676,9 +688,7 @@ def grade(element_html: str, data: pl.QuestionData) -> None:
     return
 
 
-def check_answer(a_sub, a_tru, element,):
-
-
+def check_answer(a_sub, a_tru, element):
     base = pl.get_string_attrib(element, "data-base", DATA_BASE_DEFAULT).lower()
     strict = pl.get_boolean_attrib(element, "strict-grading", STRICT_GRADING_DEFAULT)
     data_fixed_width = pl.get_integer_attrib(element, "data-fixed-width", DATA_FIXED_WIDTH_DEFAULT)
@@ -696,7 +706,6 @@ def check_answer(a_sub, a_tru, element,):
     # initial cleaning: make everything lowercase
     a_sub = a_sub.lower()
     a_tru = a_tru.lower()
-
 
     # handle unknown and blank cases first
     if (a_tru == unknown_value):
@@ -738,7 +747,6 @@ def check_answer(a_sub, a_tru, element,):
     signed = pl.get_boolean_attrib(element, "signed", SIGNED_DEFAULT)
 
     if not signed:
-        a_sub_clean = a_sub_clean.replace(" ", "")
         if base == "hex":
             return (int(a_sub, 16) == int(a_tru,16))
         else:
@@ -746,7 +754,6 @@ def check_answer(a_sub, a_tru, element,):
 
     # for signed values
     if base == "hex":
-        a_sub_clean = a_sub_clean.replace(" ", "")
         neg_values = ["8", "9", "a", "b", "c", "d", "e", "f"]
         a_sub_int = None
         # calculate integer value of submitted answer 
@@ -769,7 +776,6 @@ def check_answer(a_sub, a_tru, element,):
         return (a_sub_int == a_tru_int)
     
     if base == "bin":
-        a_sub_clean = a_sub_clean.replace(" ", "")
         a_sub_int = None
         # calculate integer value of submitted answer 
         if (a_sub[0] == '1'):
