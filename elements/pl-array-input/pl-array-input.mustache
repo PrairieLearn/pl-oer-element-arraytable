@@ -1,12 +1,12 @@
 {{#question}}
-    <div class="a-input-block">
+    <div class="a-input-block d-flex justify-content-center align-items-start text-center w-100">
         <div class="left-filler"></div>
         <div>
-            <table class="array-input table table-hover table-sm rounded-3 overflow-hidden">
+            <table class="array-input table table-hover table-bordered table-sm rounded-3 overflow-hidden w-auto mb-0">
                 <thead class="table-light">
                     <tr>
                         {{#column_names}}
-                            <th>{{{.}}}</th>
+                            <th class="px-2">{{{.}}}</th>
                         {{/column_names}}
                     </tr>
                 </thead>
@@ -26,7 +26,7 @@
                                 {{! If it is question-required material, use input field}}
                                 {{#content}}
                                     <td>
-                                        <div class="result-container input-group">
+                                        <div class="result-container input-group d-flex align-items-center justify-content-center">
                                             <input
                                                 type="text"
                                                 name="{{cell_name}}"
@@ -36,7 +36,7 @@
                                                 style="width:{{width}}px"
                                                 {{#placeholder}}placeholder="{{placeholder}}"{{/placeholder}}
                                             ></input>
-                                                                                            {{#show_partial_score}}
+                                                {{#show_partial_score}}
                                                     {{#correct}}
                                                         <span class="input-group-text">
                                                             <span class="badge bg-success">
@@ -75,7 +75,7 @@
                 </tbody>
             </table>
             {{^is_material}}
-                <div class="d-flex reset-button-container">
+                <div class="d-flex w-auto mt-auto mb-2 pt-2">
                     <button
                         type="button"
                         class="btn btn-outline-danger btn-sm reset-button"
@@ -83,8 +83,8 @@
                     >
                         Reset Table
                     </button>
-                    <div class="reset-confirm-container" style="display: none;">
-                        <button type="button" class="btn btn-secondary btn-sm reset-cancel">
+                    <div class="reset-confirm-container text-start" style="display: none;">
+                        <button type="button" class="btn btn-secondary btn-sm reset-cancel me-1">
                             Cancel
                         </button>
                         <button type="button" class="btn btn-success btn-sm reset-confirm">
@@ -94,22 +94,22 @@
                 </div>
             {{/is_material}}
         </div>
-        <div class="right-info-column" style="display: flex; flex-direction: column; align-items: flex-start;">
+        <div class="right-info-column d-flex flex-column align-items-start ps-1">
             {{^is_material}}
                 {{#all_correct}}
-                    <span class="badge bg-success badge-large">
+                    <span class="badge bg-success badge-large mb-1">
                         <i class="fa fa-check-circle" aria-hidden="true"></i> 100%
                     </span>
                 {{/all_correct}}
                 {{^all_correct}}
                     {{#all_incorrect}}
-                        <span class="badge bg-danger badge-large">
+                        <span class="badge bg-danger badge-large mb-1">
                             <i class="fa fa-times-circle" aria-hidden="true"></i> 0%
                         </span>
                     {{/all_incorrect}}
                     {{^all_incorrect}}
                         {{#score}}
-                            <span class="badge bg-warning text-dark badge-large">
+                            <span class="badge bg-warning text-dark badge-large mb-1">
                                 <i class="far fa-circle" aria-hidden="true"></i> {{score}}%
                             </span>
                         {{/score}}
@@ -118,7 +118,7 @@
                 {{^hide_help_text}}
                     <button
                         type="button"
-                        class="btn info-button align-items-center"
+                        class="btn p-0 border-0 text-dark d-flex align-items-center"
                         data-bs-toggle="popover"
                         data-bs-html="true"
                         title="Array Input"
@@ -134,13 +134,13 @@
 {{/question}}
 
 {{#submission}}
-    <div class="a-input-block">
+    <div class="a-input-block d-flex justify-content-center align-items-start text-center w-100">
         <div class="left-filler"></div>
-        <table class="array-input table table-hover table-sm rounded-3 overflow-hidden">
+        <table class="array-input table table-hover table-bordered table-sm rounded-3 overflow-hidden w-auto mb-2">
             <thead class="table-light">
                 <tr>
                     {{#column_names}}
-                        <th>{{{.}}}</th>
+                        <th class="px-2">{{{.}}}</th>
                     {{/column_names}}
                 </tr>
             </thead>
@@ -157,9 +157,9 @@
                             {{/is_material}}
                             {{^is_material}}
                                 <td>
-                                    <div class="result-container input-group">
+                                    <div class="result-container input-group d-flex align-items-center justify-content-center">
                                         {{sub}}
-                                                                                    {{#show_partial_score}}
+                                            {{#show_partial_score}}
                                                 {{#correct}}
                                                     <span class="input-group-text">
                                                         <span class="badge bg-success">
@@ -197,7 +197,7 @@
             </tbody>
         </table>
         {{^is_material}}
-            <div class="right-info-column">
+            <div class="right-info-column d-flex flex-column align-items-start ps-1">
                 {{#all_correct}}
                     <span class="badge bg-success badge-large">
                         <i class="fa fa-check-circle" aria-hidden="true"></i> 100%
@@ -224,12 +224,12 @@
 
 {{#answer}}
     {{^is_material}}
-        <div class="a-input-block">
-            <table class="array-input table table-hover table-sm rounded-3 overflow-hidden">
+        <div class="a-input-block d-flex justify-content-center align-items-start text-center w-100">
+            <table class="array-input table table-hover table-bordered table-sm rounded-3 overflow-hidden w-auto mb-2">
                 <thead class="table-light">
                     <tr>
                         {{#column_names}}
-                            <th>{{{.}}}</th>
+                            <th class="px-2">{{{.}}}</th>
                         {{/column_names}}
                     </tr>
                 </thead>
