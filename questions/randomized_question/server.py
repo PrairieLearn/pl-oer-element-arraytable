@@ -1,6 +1,5 @@
 import random
-import string
-import math
+
 
 def generate(data):
     # operations choices
@@ -24,6 +23,6 @@ def generate(data):
             answers[i1] = answers[i2] * answers[i3]
         elif op == "+":
             answers[i1] = answers[i2] + answers[i3]
-    
+
     # can set correct answers in server.py instead of question.html
     data["correct_answers"]["q1"] = answers

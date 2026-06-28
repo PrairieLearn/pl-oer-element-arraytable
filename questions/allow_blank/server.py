@@ -1,8 +1,6 @@
-import random
-import string
-import math
 
-#parses data["correct_answers"] and data["submitted_answers"] to a list format
+
+# parses data["correct_answers"] and data["submitted_answers"] to a list format
 def string_to_list(value: str):
     if value is None:
         return None
@@ -13,8 +11,10 @@ def string_to_list(value: str):
     value = [v.strip() for v in value]
     return value
 
+
 def generate(data):
     pass
+
 
 def grade(data):
 
@@ -37,7 +37,6 @@ def grade(data):
     #         B_score += 1
     #     else:
     #         data["partial_scores"]["q2_" +  str(key)] = {"score" : 0, "weight" : 0, "feedback" : "Incorrect."}
-    
 
     # # if everything in table C is accurate, we want to give more weight to table B.
     # # Otherwise, we want to give an equal weight to both questions.
