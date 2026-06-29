@@ -58,6 +58,7 @@ def prepare(element_html: str, data: pl.QuestionData) -> None:
         "correct-answer",
         "prefill",
         "placeholder",
+        "read-only",
         "is-material",
         "column-names",
         "show-partial-score",
@@ -248,6 +249,14 @@ def check_correct_answer_type(
         return
 
 
+def _is_read_only(element) -> bool:
+    return pl.get_boolean_attrib(
+        element,
+        "read-only",
+        pl.get_boolean_attrib(element, "is-material", IS_MATERIAL_DEFAULT),
+    )
+
+
 def render(element_html: str, data: pl.QuestionData) -> str:
     element = lxml.html.fragment_fromstring(element_html)
     name = pl.get_string_attrib(element, "answers-name")
@@ -397,7 +406,7 @@ def render(element_html: str, data: pl.QuestionData) -> str:
     column_names = pl.get_string_attrib(element, "column-names", COLUMN_NAMES_DEFAULT)
     column_names = string_to_list(column_names)
 
-    is_material = pl.get_boolean_attrib(element, "is-material", IS_MATERIAL_DEFAULT)
+    is_material = _is_read_only(element)
 
     score = data["partial_scores"].get(name, {"score": None}).get("score", None)
     if score is not None:
@@ -593,7 +602,7 @@ def parse(element_html: str, data: pl.QuestionData) -> None:
     element = lxml.html.fragment_fromstring(element_html)
 
     # check if the question is marked as material (informational)
-    is_material = pl.get_boolean_attrib(element, "is-material", False)
+    is_material = _is_read_only(element)
     # if it's material, skip grading
     if is_material:
         return
@@ -745,7 +754,7 @@ def validate_input(a_sub, answer_name, element, data: pl.QuestionData):
 def grade(element_html: str, data: pl.QuestionData) -> None:
     element = lxml.html.fragment_fromstring(element_html)
     # check if the question is marked as material (informational)
-    is_material = pl.get_boolean_attrib(element, "is-material", False)
+    is_material = _is_read_only(element)
     # if it's material, skip grading
     if is_material:
         return
@@ -927,7 +936,7 @@ def test(element_html: str, data: pl.ElementTestData) -> None:
     element = lxml.html.fragment_fromstring(element_html)
     name = pl.get_string_attrib(element, "answers-name")
 
-    is_material = pl.get_boolean_attrib(element, "is-material", IS_MATERIAL_DEFAULT)
+    is_material = _is_read_only(element)
     if is_material:
         data["raw_submitted_answers"][name] = data["correct_answers"]
         return
