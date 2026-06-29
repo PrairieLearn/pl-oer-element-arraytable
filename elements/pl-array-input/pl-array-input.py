@@ -215,7 +215,7 @@ def check_correct_answer_type(
                 continue
             try:
                 int(i)
-            except Exception:
+            except ValueError:
                 raise ValueError(
                     f'data-base is set to "dec" in question {name}, however one or more of the correct-answer values is an invalid decimal number. If you\'d like to choose a different base, set data-base to "hex", "bin", or "string".'
                 ) from None
@@ -228,7 +228,7 @@ def check_correct_answer_type(
                 continue
             try:
                 int(i, 16)
-            except Exception:
+            except ValueError:
                 raise ValueError(
                     f'data-base is set to "hex" in question {name}, however one or more of the correct-answer values is an invalid hexadecimal number.'
                 ) from None
@@ -241,7 +241,7 @@ def check_correct_answer_type(
                 continue
             try:
                 int(i, 2)
-            except Exception:
+            except ValueError:
                 raise ValueError(
                     f'data-base is set to "bin" in question {name}, however one or more of the correct-answer values is an invalid binary number.'
                 ) from None
@@ -698,7 +698,7 @@ def validate_input(a_sub, answer_name, element, data: pl.QuestionData):
     if base == "dec":
         try:
             int(a_sub_clean)
-        except Exception:
+        except ValueError:
             data["format_errors"][answer_name] = (
                 f"Invalid format. The submitted answer must be a valid decimal or {uv}."
             )
@@ -708,7 +708,7 @@ def validate_input(a_sub, answer_name, element, data: pl.QuestionData):
         a_sub_clean = a_sub_clean.replace(" ", "")
         try:
             int(a_sub_clean, 16)
-        except Exception:
+        except ValueError:
             data["format_errors"][answer_name] = (
                 f"Invalid format. The submitted answer must be a valid hexadecimal number or {uv}."
             )
@@ -718,7 +718,7 @@ def validate_input(a_sub, answer_name, element, data: pl.QuestionData):
         a_sub_clean = a_sub_clean.replace(" ", "")
         try:
             int(a_sub_clean, 2)
-        except Exception:
+        except ValueError:
             data["format_errors"][answer_name] = (
                 f"Invalid format. The submitted answer must be a valid binary number or {uv}."
             )
