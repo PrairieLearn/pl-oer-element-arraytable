@@ -779,7 +779,7 @@ def grade(element_html: str, data: pl.QuestionData) -> None:
         if a_tru is None:
             break
         if answer_name in data["submitted_answers"]:
-            a_sub = data["submitted_answers"][answer_name]
+            a_sub = pl.from_json(data["submitted_answers"][answer_name])
             if check_answer(a_sub, a_tru, element):
                 data["partial_scores"][answer_name] = {
                     "score": 1,
