@@ -86,9 +86,8 @@ def prepare(element_html: str, data: pl.QuestionData) -> None:
     )  # [0x0, 0x1, 0x2, 0x3, ...]
     index_values = string_to_list(index_values)
 
-    # convert each answer to string
+    # escape unescaped commas so each answer stays a single list item
     if name in data["correct_answers"]:
-        # data["correct_answers"][name] = [str(ans) for ans in data["correct_answers"][name]]
         data["correct_answers"][name] = [
             re.sub(r"(?<!\\),", r"\,", str(ans))
             for ans in data["correct_answers"][name]
@@ -904,7 +903,7 @@ def check_answer(a_sub, a_tru, element):
         a_tru_int = None
         if a_tru[0] in neg_values:
             a_tru_int_unsigned = int(a_tru, 16)
-            mask = int(("f" * len(a_sub)), 16)
+            mask = int(("f" * len(a_tru)), 16)
             a_tru_int = -1 * ((a_tru_int_unsigned ^ mask) + 1)
         else:
             a_tru_int = int(a_tru, 16)
@@ -924,8 +923,8 @@ def check_answer(a_sub, a_tru, element):
         # calculate integer value of correct answer
         a_tru_int = None
         if a_tru[0] == "1":
-            a_tru_int_unsigned = int(a_sub, 2)
-            mask = int(("1" * len(a_sub)), 2)
+            a_tru_int_unsigned = int(a_tru, 2)
+            mask = int(("1" * len(a_tru)), 2)
             a_tru_int = -1 * ((a_tru_int_unsigned ^ mask) + 1)
         else:
             a_tru_int = int(a_tru, 2)
@@ -975,7 +974,6 @@ def test(element_html: str, data: pl.ElementTestData) -> None:
 
     if result == "correct":
         data["raw_submitted_answers"][name] = data["correct_answers"][name]
-        feedback = {name: "null"}
         data["partial_scores"][name] = {"score": 1, "weight": weight}
         for key in all_keys:
             data["partial_scores"][name + "_" + str(key)] = {
@@ -1052,14 +1050,3 @@ def test(element_html: str, data: pl.ElementTestData) -> None:
             data["format_errors"][name + "_" + str(key)] = "No submitted answer."
     else:
         raise Exception("invalid result: %s" % result)
-
-
-# def string_to_list(value: str):
-#     if value is None:
-#         return None
-#     value = value.strip()
-#     if value.startswith("[") and value.endswith("]"):
-#         value = value[1:-1]
-#     value = value.split(",")
-#     value = [v.strip() for v in value]
-#     return value
